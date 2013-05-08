@@ -18,7 +18,7 @@ module Sofatutor  #:nodoc:
       StopWords = /\b(\d+|\w|about|after|also|an|and|are|as|at|be|because|before|between|but|by|can|com|de|do|en|for|from|has|how|however|htm|html|if|i|in|into|is|it|la|no|of|on|or|other|out|since|site|such|than|that|the|there|these|this|those|to|under|upon|vs|was|what|when|where|whether|which|who|will|with|within|without|www|you|your)\b/i
 
       attr_reader :search_terms # sanitized search terms
-      attr_reader :raw # original terms as typed by user
+      attr_reader :raw_search_terms # original terms as typed by user
       attr_reader :engine # search engine
 
       def initialize(referer)
@@ -27,17 +27,17 @@ module Sofatutor  #:nodoc:
         query_string = referer.split('?',2)[1]
         return if query_string.blank?
 
+        params = CGI::parse(query_string)
         SearchReferers.each do |engine, v|
           pattern, query_param_name = v
           next unless pattern.match(referer)
 
           @engine = engine
 
-          params = CGI::parse(query_string)
           break unless params.has_key?(query_param_name)
 
-          @raw = params[query_param_name].join(' ')
-          @search_terms = @raw.gsub(StopWords,'').squeeze(' ')
+          @raw_search_terms = params[query_param_name].join(' ')
+          @search_terms = @raw_search_terms.gsub(StopWords, '').squeeze(' ')
           break
         end
       end
