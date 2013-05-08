@@ -6,9 +6,9 @@ desc 'Default: run unit tests.'
 task :default => :test
 
 desc 'Test the search_sniffer plugin.'
-Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
-  t.pattern = 'test/**/*_test.rb'
+Rake::TestTask.new do |t|
+  t.libs << 'test'
+  t.test_files = FileList['test/**/*_test.rb']
   t.verbose = true
 end
 
