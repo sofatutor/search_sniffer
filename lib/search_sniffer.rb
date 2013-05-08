@@ -1,6 +1,6 @@
 # Adapted from http://www.insiderpages.com/rubyonrails/2007/01/get-referring-search-engine-keywords.html
 
-module Squeejee  #:nodoc:
+module Sofatutor  #:nodoc:
   module SearchSniffer  #:nodoc:
     module ControllerMethods
       #   Creates @referring_search containing any referring search engine query minus stop words
