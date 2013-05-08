@@ -5,9 +5,13 @@ module Sofatutor  #:nodoc:
 
       SearchReferers = {
         :google     => [/^http:\/\/(www\.)?google.*/, 'q'],
+        :yandex     => [/^http:\/\/(www\.)?yandex.*/, 'text'],
+        :mail       => [/^http:\/\/go\.mail.*/, 'q'],
+        :nigma      => [/^http:\/\/(www\.)?nigma.*/, 's'],
+        :bing       => [/^http:\/\/(www\.)?bing.*/, 'q'],
+        :ask        => [/^http:\/\/(www\.)?ask.*/, 'q'],
         :yahoo      => [/^http:\/\/search\.yahoo.*/, 'p'],
         :msn        => [/^http:\/\/search\.msn.*/, 'q'],
-        :live       => [/^http:\/\/search\.live.*/, 'q'],
         :aol        => [/^http:\/\/search\.aol.*/, 'userQuery'],
         :altavista  => [/^http:\/\/(www\.)?altavista.*/, 'q'],
         :feedster   => [/^http:\/\/(www\.)?feedster.*/, 'q'],
