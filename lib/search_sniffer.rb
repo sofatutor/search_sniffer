@@ -1,5 +1,9 @@
+require 'cgi'
+require 'active_support/core_ext/object'
 require 'sofatutor/search_sniffer/version'
 require 'sofatutor/search_sniffer/referring_search'
 require 'sofatutor/search_sniffer/controller_methods'
 
-ActionController::Base.send :include, Sofatutor::SearchSniffer::ControllerMethods
+if defined? ::Rails
+  ActionController::Base.send :include, Sofatutor::SearchSniffer::ControllerMethods
+end
