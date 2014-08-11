@@ -5,7 +5,7 @@ module Sofatutor  #:nodoc:
 
       # Search engine detetion expressions
       SearchReferers = {
-        :google     => [%r{^http://(www\.)?google.*}, 'q'],
+        :google     => [%r{^https?://(www\.)?google.*}, 'q'],
         :yandex     => [%r{^http://(www\.)?yandex.*}, 'text'],
         :mail       => [%r{^http://go\.mail.*}, 'q'],
         :nigma      => [%r{^http://(www\.)?nigma.*}, 's'],
@@ -30,10 +30,9 @@ module Sofatutor  #:nodoc:
       def initialize(referer)
         return if referer.blank?
 
-        query_string = referer.split('?',2)[1]
-        return if query_string.blank?
+        query_string = referer.split('#',2)[1] || referer.split('?',2)[1]
 
-        params = CGI::parse(query_string)
+        params = CGI::parse(query_string.to_s)
         SearchReferers.each do |engine, v|
           pattern, query_param_name = v
           next unless pattern.match(referer)
