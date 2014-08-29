@@ -1,4 +1,4 @@
-require 'cgi'
+require 'rack'
 require 'active_support/core_ext/object'
 require 'sofatutor/search_sniffer/version'
 require 'sofatutor/search_sniffer/referring_search'
