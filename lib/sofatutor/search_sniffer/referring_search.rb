@@ -6,18 +6,17 @@ module Sofatutor  #:nodoc:
       # Search engine detetion expressions
       SearchReferers = {
         :google     => [%r{^https?://(www\.)?google.*}, 'q'],
-        :yandex     => [%r{^http://(www\.)?yandex.*}, 'text'],
-        :mail       => [%r{^http://go\.mail.*}, 'q'],
-        :nigma      => [%r{^http://(www\.)?nigma.*}, 's'],
-        :bing       => [%r{^http://(www\.)?bing.*}, 'q'],
-        :ask        => [%r{^http://(www\.)?ask.*}, 'q'],
-        :yahoo      => [%r{^http://search\.yahoo.*}, 'p'],
-        :msn        => [%r{^http://search\.msn.*}, 'q'],
-        :aol        => [%r{^http://search\.aol.*}, 'userQuery'],
-        :altavista  => [%r{^http://(www\.)?altavista.*}, 'q'],
-        :feedster   => [%r{^http://(www\.)?feedster.*}, 'q'],
-        :lycos      => [%r{^http://search\.lycos.*}, 'query'],
-        :alltheweb  => [%r{^http://(www\.)?alltheweb.*}, 'q']
+        :yandex     => [%r{^https?://(www\.)?yandex.*}, 'text'],
+        :mail       => [%r{^https?://go\.mail.*}, 'q'],
+        :nigma      => [%r{^https?://(www\.)?nigma.*}, 's'],
+        :bing       => [%r{^https?://(www\.)?bing.*}, 'q'],
+        :ask        => [%r{^https?://(www\.)?ask.*}, 'q'],
+        :yahoo      => [%r{^https?://(de\.)?search\.yahoo.*}, 'p'],
+        :msn        => [%r{^https?://search\.msn.*}, 'q'],
+        :aol        => [%r{^https?://search\.aol.*}, 'q'],
+        :feedster   => [%r{^https?://(www\.)?feedster.*}, 'q'],
+        :lycos      => [%r{^https?://search\.lycos.*}, 'query'],
+        :alltheweb  => [%r{^https?://(www\.)?alltheweb.*}, 'q']
       }
 
       # Words to exclude when compiling #search_terms
@@ -30,18 +29,19 @@ module Sofatutor  #:nodoc:
       def initialize(referer)
         return if referer.blank?
 
-        query_string = referer.split('#',2)[1] || referer.split('?',2)[1]
+        if query_string = referer.split('#',2)[1] || referer.split('?',2)[1]
+          params = Rack::Utils.parse_query(query_string)
+        end
 
-        params = CGI::parse(query_string.to_s)
         SearchReferers.each do |engine, v|
           pattern, query_param_name = v
           next unless pattern.match(referer)
 
           @engine = engine
 
-          break unless params.has_key?(query_param_name)
+          break unless params && params.has_key?(query_param_name)
 
-          @raw_search_terms = params[query_param_name].join(' ')
+          @raw_search_terms = params[query_param_name]
           @search_terms = @raw_search_terms.gsub(StopWords, '').squeeze(' ')
           break
         end
