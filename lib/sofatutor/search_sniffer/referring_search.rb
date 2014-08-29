@@ -6,17 +6,12 @@ module Sofatutor  #:nodoc:
       # Search engine detetion expressions
       SearchReferers = {
         :google     => [%r{^https?://(www\.)?google.*}, 'q'],
-        :yandex     => [%r{^https?://(www\.)?yandex.*}, 'text'],
-        :mail       => [%r{^https?://go\.mail.*}, 'q'],
-        :nigma      => [%r{^https?://(www\.)?nigma.*}, 's'],
         :bing       => [%r{^https?://(www\.)?bing.*}, 'q'],
         :ask        => [%r{^https?://(www\.)?ask.*}, 'q'],
         :yahoo      => [%r{^https?://(de\.)?search\.yahoo.*}, 'p'],
         :msn        => [%r{^https?://search\.msn.*}, 'q'],
         :aol        => [%r{^https?://search\.aol.*}, 'q'],
-        :feedster   => [%r{^https?://(www\.)?feedster.*}, 'q'],
         :lycos      => [%r{^https?://search\.lycos.*}, 'query'],
-        :alltheweb  => [%r{^https?://(www\.)?alltheweb.*}, 'q']
       }
 
       # Words to exclude when compiling #search_terms
