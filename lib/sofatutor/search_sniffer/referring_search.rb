@@ -41,7 +41,7 @@ module Sofatutor  #:nodoc:
 
           break unless params && params.has_key?(query_param_name)
 
-          @raw_search_terms = params[query_param_name]
+          @raw_search_terms = [params[query_param_name]].flatten.join(' ')
           @search_terms = @raw_search_terms.gsub(StopWords, '').squeeze(' ')
           break
         end
