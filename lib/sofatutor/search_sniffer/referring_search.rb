@@ -24,8 +24,16 @@ module Sofatutor  #:nodoc:
       def initialize(referer)
         return if referer.blank?
 
-        if query_string = referer.split('#',2)[1] || referer.split('?',2)[1]
-          params = Rack::Utils.parse_query(query_string)
+        if query_string = referer.split('#', 2)[1] || referer.split('?', 2)[1]
+          begin
+            params = Rack::Utils.parse_query(query_string)
+          rescue ArgumentError => e
+            if e.message =~ /invalid %-encoding/
+              params = {}
+            else
+              raise
+            end
+          end
         end
 
         SearchReferers.each do |engine, v|
