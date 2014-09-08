@@ -35,4 +35,11 @@ class ReferringSearchTest < Test::Unit::TestCase
     assert_equal sniffer.search_terms, "foo bar"
   end
 
+  def test_referrer_with_percent_syntax
+    referrer = "http://www.google.com/?width=80%&height=80%"
+    sniffer = Sofatutor::SearchSniffer::ReferringSearch.new referrer
+    assert_equal sniffer.engine, :google
+    assert_equal sniffer.raw_search_terms, nil
+    assert_equal sniffer.search_terms, nil
+  end
 end
