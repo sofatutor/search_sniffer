@@ -42,4 +42,12 @@ class ReferringSearchTest < Test::Unit::TestCase
     assert_equal sniffer.raw_search_terms, nil
     assert_equal sniffer.search_terms, nil
   end
+
+  def test_referrer_with_invalid_utf8
+    referrer = "http://www.google.com/search?q=%FCbungen"
+    sniffer = Sofatutor::SearchSniffer::ReferringSearch.new referrer
+    assert_equal sniffer.engine, :google
+    assert_equal sniffer.raw_search_terms, "�bungen"
+    assert_equal sniffer.search_terms, "�bungen"
+  end
 end

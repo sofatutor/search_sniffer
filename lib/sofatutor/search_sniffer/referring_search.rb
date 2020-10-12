@@ -45,6 +45,10 @@ module Sofatutor  #:nodoc:
           break unless params && params.has_key?(query_param_name)
 
           @raw_search_terms = [params[query_param_name]].flatten.join(' ')
+
+          # Make sure we have valid UTF-8 before applying the StopWords pattern
+          @raw_search_terms.encode!(Encoding::UTF_8, invalid: :replace)
+
           @search_terms = @raw_search_terms.gsub(StopWords, '').squeeze(' ')
           break
         end
